@@ -1,0 +1,38 @@
+nginx:
+  build: ./.docker/build/nginx
+  ports:
+    - "80:80"
+    - "4433:443"
+  volumes:
+    - ./:/var/www/html
+    - ./.docker/config/nginx/tecnosi.conf:/etc/nginx/conf.d/tecnosi.conf
+
+  links:
+    - php
+
+mysql:
+  image: mysql:5.6.34
+  volumes:
+    - ./.docker/mysql_data:/var/lib/mysql
+
+  environment:
+    MYSQL_ROOT_PASSWORD: 123123
+    MYSQL_USER: root
+    MYSQL_PASSWORD: 123123
+    MYSQL_DATABASE: laravelJetstram
+  ports:
+    - "3307:3306"
+
+redis:
+  image: redis
+  ports:
+    - "6379"
+
+php:
+  build: ./.docker/build/php
+  volumes:
+    - ./:/var/www/html
+    - ./.docker/config/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+  links:
+    - mysql
+    - redis
