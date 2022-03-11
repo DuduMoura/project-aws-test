@@ -1,5 +1,5 @@
 nginx:
-  build: ./.docker/build/nginx
+  build: nginx:alpine
   ports:
     - "80:80"
     - "4433:443"
@@ -19,7 +19,7 @@ mysql:
     MYSQL_ROOT_PASSWORD: 123123
     MYSQL_USER: root
     MYSQL_PASSWORD: 123123
-    MYSQL_DATABASE: laravelJetstram
+    MYSQL_DATABASE: laravel
   ports:
     - "3307:3306"
 
@@ -29,7 +29,7 @@ redis:
     - "6379"
 
 php:
-  build: ./.docker/build/php
+  build: Dockerfile
   volumes:
     - ./:/var/www/html
     - ./.docker/config/php/php.ini:/usr/local/etc/php/conf.d/php.ini
